@@ -3,7 +3,7 @@ This python file is also for showing the coordinates where the name will be plac
 certificate.
 '''
 from PIL import Image, ImageDraw
-import sys
+
 
 #change the filepath to where the template for the certificate can be found
 filepath_certificate = "assets/Sci-Py Certificate Template.png"
@@ -11,7 +11,7 @@ certificate = Image.open(filepath_certificate)
 
 width, height = certificate.size
 
-#change this if the middle of the photo is not the desire point where the name will be placed
+#change this to your desire point where the name will be placed
 placement_coordinate = (width/2, height/2) 
 
 certificate_drawer = ImageDraw.Draw(certificate)
