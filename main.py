@@ -22,11 +22,18 @@ def Lastnamefirst_to_Givennamefirst(names:list) -> list:
     for name in names:
 
         if ',' in name:
+
             name_split = name.split(",")
 
             #remove the front space in the given if there is
             if ' ' == name_split[1][0]:
                 name_split[1].replace(" ", "", 1)
+
+            new_names.append(name_split[1] + " " + name_split[0])
+        else:
+            new_names.append(name)
+    
+    return new_names
         
     
     
@@ -39,8 +46,9 @@ def main():
     with open(filepath_csv, newline='') as csv_file:
         csv_file_data = csv.DictReader(csv_file)
 
-        #adjust this so that the name will be retrieved based on the header  of the row names
-        names = csv_file_data["Name (Last Name, First Name, Middle Initial)"] 
+        #adjust the key of the row so that the name will be retrieved
+        names = [ row["Name (Last Name, First Name, Middle Initial)"] for row in csv_file_data]
+    
     
     #remove this if the format of the name follows "Given Name Last Name"
     names = Lastnamefirst_to_Givennamefirst(names)
@@ -57,14 +65,19 @@ def main():
     #you can use the test_position.py to determine your desired point
     placement_coordinate = (width_img/2, (height_img/2) - 30) 
 
+    for name in names:
 
-    Process_OneName(certificate_img, "Francis John N. Magallanes", placement_coordinate)
+        with Image.open(filepath_certificate) as certificate_img:
+            
+            Process_OneName(certificate_img, name, placement_coordinate)
 
-    certificate_img.show()
+            #adjust this accordingly where the modified photo will be saved
+            certificate_img.save("assets/Saved Test Photos/" + name + " Certificate.png")
+   
+
     
-  
     
-    pass
+    
 
 if (__name__ == "__main__"):
     main()
