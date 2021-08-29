@@ -25,9 +25,13 @@ def Lastnamefirst_to_Givennamefirst(names:list) -> list:
 
             name_split = name.split(",")
 
-            #remove the front space in the given if there is
+            #remove the front space in the given name if there is
             if ' ' == name_split[1][0]:
                 name_split[1].replace(" ", "", 1)
+
+            #remove the last space in the given name if there is
+            if name_split[1][len(name_split[1])- 1] == ' ':
+                name_split[1] = name_split[1][:len(name_split[1]) - 1]
 
             new_names.append(name_split[1] + " " + name_split[0])
         else:
@@ -43,6 +47,7 @@ def main():
     filepath_csv = "assets/Sci-Py Registration.csv"
 
     #this will get the names from the csv file
+    #Note: Duplicates will be removed
     with open(filepath_csv, newline='') as csv_file:
         csv_file_data = csv.DictReader(csv_file)
 
@@ -65,6 +70,8 @@ def main():
     #you can use the test_position.py to determine your desired point
     placement_coordinate = (width_img/2, (height_img/2) - 30) 
 
+    print("Process Started")
+
     for name in names:
 
         with Image.open(filepath_certificate) as certificate_img:
@@ -74,10 +81,7 @@ def main():
             #adjust this accordingly where the modified photo will be saved
             certificate_img.save("assets/Saved Test Photos/" + name + " Certificate.png")
    
-
-    
-    
-    
+    print("Finished!!!")
 
 if (__name__ == "__main__"):
     main()
